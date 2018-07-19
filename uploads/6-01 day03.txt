@@ -1,0 +1,297 @@
+
+MySQL-Day02回顾
+
+	1. 表记录的管理
+		1>. 删除
+		2>. 更新
+	2. 运算符
+		1>. 数值比较 & 字符比较
+		2>. 逻辑比较
+		3>. 范围内比较
+			between 值1 and 值2
+			in()  not in()
+		4>. 匹配空, 非空
+		5>. 模糊比较
+			字段名 like 表达式
+	3. SQL查询
+		1>. order by
+		2>. limit
+		3>. 聚合函数
+		4>. group by (先分组 - 再聚合 - 再去重)
+		5>. having
+			与group by语句联合使用.过滤由group by语句返回的记录集
+			弥补了where关键字不能与聚合函数联合使用的不足
+			where 只能操作表中实际存在的字段(desc 表名;),
+			having 可操作由聚合函数生成的显示列
+		6>. distinct
+		7>. 查询时做数学运算
+		8>. 执行顺序
+	4. 约束
+		1>. 默认约束(default)
+		2>. 非空约束(not NULL)
+
+
+MySQL-day03笔记
+
+1. 索引(index)
+	1>. 定义
+		对数据库中表的一列或多列的值进行排序的一种结构(MySQL中索引用BTREE方式)
+	2>. 优点
+		可以加快数据的检索速度
+	3>. 缺点
+		1. 当对表中的数据进行增加,删除,修改时,索引需要动态维护,降低了数据的维护速度
+		2. 索引需要占用 物理空间
+	4>. 索引示例
+		1. 开启运行时间检测
+			show variables like '%pro';
+			set profiling=1;
+		2. 执行查询语句
+			select name from t1 where name='lucy1009999';
+		3. 查看执行时间
+			show profiles;
+		4. 在name字段创建索引
+			create index index_name on t1(name);
+		5. 执行查询语句
+			select name from t1 where name='lucy1009999';
+		6. 查看执行时间
+			show profiles;
+	5>. 索引类型
+		1. 普通索引(index)
+	    	1). 使用规则
+	    		1. 一张表中可以有多个index字段
+	    		2. 字段的值可以重复,且可以为NULL
+	    		3. 经常把做查询条件的字段设置为index字段
+	    		4. index字段的key标志为MUL
+	    	2). 创建index
+	    		1. 创建表
+	    			... index(字段名),index(字段名));
+	    		2. 已有表
+	    			create index 索引名 on 表名(字段名);
+	    	3). 查看所有
+	    		1. desc 表名;
+	    		2. show index from 表名;
+	    		2. show index from 表名\G;
+	    	4). 删除index
+	    		drop index 索引名 on 表名;
+	    		## 删除普通索引只能一个一个删
+	    2. 唯一索引(unique)
+	    	1).使用规则
+		    	1. 一个表中可以有多个unique字段
+		    	2. 对于字段的值不允许重复,但可以为NULL
+		    	3. key标志: UNI
+		    2). 创建
+	    		1. 创建表
+	    			...unique(字段名),unique(字段名));
+	    			...unique(phnumber),unique(cardnumber));
+	    		2. 已有表
+	    			create unique index 索引名 on 表名(字段名);
+	    		3. 查看/删除(同index)
+	    			drop index 索引名 on 表名;
+	    3. 	主键索引(primary key)
+	    	&&
+	    	自增长属性(auto_increment)配合主键一起使用
+	    	1). 使用规则   
+	    		1. 一个表中只能有一个主键字段
+	    		2. 对应字段值不允许重复,且不能为NULL
+	    		3. key标志: PRI  
+	    		4. 把表中能够唯一标识一条记录的字段设置为主键,通常把记录编号的字段设置为主键
+	    	2). 创建
+	    		1. 创建表
+	    			... id int primary key auto_increment,... ...)[auto_increment=1000];
+	    			... id int auto_increment,... primary key(id))[auto_increment=10000];  # 复合主键
+	    		2. 在已有表中创建
+	    			alter table 表名 add primary key(字段名);
+	    		3. 删除主键
+	    			1>. 删除自增长属性
+	    				alter table 表名 modify id int;   # 修改属性
+	    			2>. 删除主键
+	    				alter table 表名 drop primary key;
+	    		4. 在已有表中添加自增长属性并指定起始值
+	    			1>. 添加自增长属性
+	    				alter table 表名 modify id int auto_increment;
+	    			2>. 指定起始值
+	    				alter table 表名 auto_increment=1000;
+	    4. 外键索引(foreign key)
+	    	1). 定义
+	    		让当前表的字值段在另一个表的范围内选择
+	    	2). 语法格式(创建表)
+	    		[constraint 外键名]
+	    		foreign key(参考字段名)
+	    		references 被参考表名(被参考字段名)
+	    		on delete 级联动作
+	    		on update 级联动作
+	    	3). 示例
+	    		表1: 缴费信息表(财务)
+	    			学号   姓名   班级   金额
+	    			  1   唐伯虎  二班   200
+	    			  2   点秋香  二班   300
+	    			  3   祝枝山  二班   500
+	    			 
+	    		表2: 班级信息表(班主任)
+	    			学号   姓名   金额
+	    			  1   唐伯虎  200
+	    			  2   点秋香  300
+
+	    		表1 :
+					create table jftab(
+					id int primary key,
+					name varchar(20),
+					class varchar(7),
+					money int)character set utf8;
+
+					insert into jftab values
+					(1,'唐伯虎','AID04',200),
+					(2,'点秋香','AID04',300),
+					(3,'祝枝山','AID04',500);
+
+	    		表2:
+					create table bjtab(
+					stu_id int,
+					name varchar(20),
+					money int,
+					foreign key(stu_id) references jftab(id) on delete 
+					cascade on update cascade
+					)character set utf8;
+
+					insert into bjtab values
+					(1,'唐伯虎',200),
+					(2,'点秋香',300);
+			4). 级联动作
+				1. cascade : 数据级联更新
+					当主表删除记录或更改被参考字段值时,从表级联更新
+				2. restrict(默认)
+					当主表删除记录或更改被参考字段值时,从表中有相关联记录则不允许主表操作
+				3. set NULL
+					当主表删除记录或更改被参考字段值时,从表中有相关联记录的字段值设置为NULL
+				4. no action
+					同restrict,都是立即检查外键限制
+			5). 删除外键限制
+				1.查看外键名
+					外键名查看方式: show create table 表名;
+				2.删除外键
+					alter table 表名 drop foreign key 外键名;
+			6). 在已有表中添加外键限制
+				alter table 表名 add [constraint 外键名]
+				foreign key(...) references 表名(字段名) 
+				on delete 级联动作
+				on cascade 级联动作
+			7). 使用规则
+				1. 两张表参考字段和被参考字段数据类型要一致
+				2. 被参考字段必须为key的一种,通常primary key
+
+2. 数据导入
+	1>. 作用: 把文件系统的内容导入到数据库中
+	2>. 语法格式
+		load data infile '文件名'
+		into table 表名
+		fields terminated by '分隔符'
+		lines terminated by '\n'
+	3>. 示例
+		1. 把/etc/passwd文件中的内容导入到db3下的userinfo表
+			tarena  :  x  :  1000  :  1000 :
+			用户名   密码    uid      gid
+			tarena,,,  :  /home/tarena  :  /bin/bash
+			用户描述       主目录           登录权限
+	4>. 操作步骤
+		1. 在数据库中创建对应的表
+			create table userinfo(
+			username varchar(20),
+			password char(1),
+			uid int,
+			gid int,
+			comment varchar(50),
+			homedir varchar(50),
+			shell varchar(50)
+			)character set utf8;
+		2. 把要导入的文件拷贝到数据库搜索路径中
+			1>. 查看数据库搜索路径(模糊查询)
+				show variables like 'secure_file_priv';
+			2>. 拷贝文件
+				($ sudo cp 文件 搜索路径)
+				$ sudo cp /etc/passwd /var/lib/mysql-files/
+		3. 执行数据导入语句
+			load data infile '/var/lib/mysql-files/passwd'
+			into table userinfo
+			fields terminated by ':'
+			lines terminated by '\n';
+	5>. 练习
+		1. 将AID1709.csv文件导入到 aid1709表中
+			1. 创建表
+				create table aid1709(
+				id int,
+				name varchar(20),
+				score float(5,2),
+				phone bigint,
+				class char(7)
+				)character set utf8;	
+			2. 拷贝文件
+				sudo cp ~/AID1709.csv /var/lib/mysql-files/
+			3. 执行数据导入语句
+				load data infile 
+				'/var/lib/mysql-files/AID1709.csv'
+				into table aid1709
+				fields terminated by ','
+				lines terminated by '\n'; 
+
+3. 数据导出
+	1>. 作用
+		将数据库中表记录保存到系统文件里
+	2>. 导出步骤
+		1.查看搜索路径
+		2.执行数据导出命令
+			select ... from 表名
+			into outfile '文件名'
+			fields terminated by '分隔符'
+			lines terminated by '\n';
+	3>. 示例
+		1. 把userinfo表中的用户名,密码和uid三个字段的值给导出来
+			select username,password,uid from userinfo
+			into outfile '/var/lib/mysql-files/user1.txt'
+			fields terminated by '   '
+			lines terminated by '\n';
+
+			# 在终端执行以下命令查看
+			sudo -i
+			cd /var/lib/mysql-files/
+			ls
+			cat user1.txt
+
+			system sudo cp '/var/lib/mysql-files/user1.txt'
+
+		2. 把库 mysql 下的user表中user,host的值导出来,user.csv
+			select user,host from mysql.user
+			into outfile '/var/lib/mysql-files/user.csv'
+			fields terminated by ','
+			lines terminated by '\n';
+			cp /var/lib/mysql-files/user.csv /home/tarena/桌面/python
+	4>. 注意
+		1. 导出的内容由SQL查询语句决定
+		2. 执行导出命令时路径必须指定对应的数据库目录下
+			### chmod 777 文件名
+			### chmod +rw 文件名
+	5>. 表的复制
+		表的重命名: alter table 表名 rename 新表名;
+		1. 复制语法格式
+			create table 表名 select ... from 表名 ...;
+		2. 示例
+			1>. 复制aid1709 表的全部记录和字段,aid17092
+				create table aid17092 
+				select * from aid1709;
+			2>. 复制aid1709 表中成绩低于65分的学生到表next
+				create table next 
+				select * from aid1709 where score<65;
+		3. 只复制表结构
+			create table 表名 select ... from 表名 where False;
+	6>. 嵌套查询(子查询)
+		1. 定义: 把内层的查询结果作为外层查询的条件
+		2. 语法
+			SQL查询语句 where 条件(SQL查询语句)
+		3. 示例
+			1>. 把uid的值小于这个平均值的用户名和uid显示出来
+				select username,uid from userinfo 
+				where uid<(select avg(uid) from userinfo);
+			2>. 找出每个国家攻击力最强 的英雄的名字和攻击值
+				select name,gongji from sanguo
+				where gongji in(
+				select max(gongji) from sanguo group by country);
+

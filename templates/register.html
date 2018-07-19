@@ -1,0 +1,142 @@
+{#{% extends 'base.html' %}#}
+{#{% load staticfiles %}#}
+{##}
+{#{% block title %}Register Template for Bootstrap{% endblock %}#}
+{##}
+{#<link href="{% static 'bootstrap/css/signin.css' %}" rel="stylesheet">#}
+{##}
+{##}
+{#{% block page-container %}#}
+{#<form action="" method="post">{% csrf_token %}#}
+{#    Username:<input type="text" name="username">#}
+{#    Password:<input type="password" name="password">#}
+{#    <input type="submit" value="Log me in">#}
+{#</form>#}
+{#{% block page-container %}#}
+{#<div class="container" style="margin-left: 55px;">#}
+{#    <form role="form" novalidate="novalidate" action="" method="post" class="form-registerin" style="max-width:330px; padding:15px; margin-left: 220px;#}
+{#    margin-bottom:10px; position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box; ">{% csrf_token %}#}
+{#        <h2 class="form-Register-heading" style="margin-bottom: 10px;">Please Register in</h2>#}
+{#        <div class="form-group">#}
+{#            <label for="inputUsername" class="sr-only">Username</label>#}
+{#            {{ form.username }} <span style="color: red">{{ form.username.errors }}</span>#}
+{#        </div>#}
+{#        <label for="inputUsername" class="sr-only">Username</label>#}
+{#        <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus#}
+{#        style="position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box;margin-bottom: 15px;">#}
+{#        {{ form.username }} <span style="color: red">{{ form.username.errors }}</span>#}
+{#        <div class="form-group">#}
+{#            <label for="inputPassword" class="sr-only">Password</label>#}
+{#            {{ form.password1 }}<span style="color: red">{{ form.password1.errors.0 }}</span>#}
+{#        </div>#}
+{#        <label for="inputPassword" class="sr-only">Password</label> #}
+{#        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required#}
+{#        style="position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box;">#}
+{#        {{ form.password }}<span style="color: red">{{ form.password.errors.0 }}</span>#}
+{##}
+{#        <div class="form-group">#}
+{#            <label for="confirm_password">Password Confirmation</label>#}
+{#            {{ form.password2 }}#}
+{#            <span style="color: red">#}
+{#                {{ form.password2.errors.0  }}#}
+{#            </span>#}
+{#        </div>#}
+{#        <label for="confirm_password">Password Confirmation</label>#}
+{#        {{ form.password2 }}#}
+{#        <span style="color: red">#}
+{#            {{ form.password2.errors.0  }}#}
+{#            {% if form|all_errors %}#}
+{#                {{ form|all_errors }}#}
+{#            {% endif %}</span>#}
+{#        </span>#}
+{#        <div class="checkbox" style="margin-bottom: 10px;">#}
+{#            <label>#}
+{#                <input type="checkbox" value="remember-me"> Remember me#}
+{#            </label>#}
+{#        </div>#}
+{#        <input type="submit" value="Register in" class="btn btn-lg btn-primary btn-block">#}
+{#        <span>已有账号？<a href="/accounts/login/">直接登录</a></span>#}
+{#    </form>#}
+{#</div>#}
+{##}
+{#<div>#}
+{#    {% if login_err %}#}
+{#        <p style="color: red"> {{login_err}}</p>#}
+{#    {% endif %}#}
+{#</div>#}
+{##}
+{#{% endblock %}#}
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Register Template for Bootstrap{% endblock %}
+
+{#<link href="{% static 'bootstrap/css/signin.css' %}" rel="stylesheet">#}
+
+{#{% block page-container %}#}
+{#<form action="" method="post">{% csrf_token %}#}
+{#    Username:<input type="text" name="username">#}
+{#    Password:<input type="password" name="password">#}
+{#    <input type="submit" value="Log me in">#}
+{#</form>#}
+{% block page-container %}
+<div class="container" style="margin-left: 55px;">
+    <form role="form" novalidate="novalidate" action="" method="post" class="form-registerin" style="max-width:330px; padding:15px; margin-left: 220px;
+    margin-bottom:10px; position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box; ">{% csrf_token %}
+        <h2 class="form-Register-heading" style="margin-bottom: 10px;">Please Register in</h2>
+{#        <div class="form-group">#}
+{#            <label for="inputUsername" class="sr-only">Username</label>#}
+{#            {{ form.username }} <span style="color: red">{{ form.username.errors }}</span>#}
+{#        </div>#}
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus
+        style="position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box;margin-bottom: 15px;">
+{#        {{ form.username }} <span style="color: red">{{ form.username.errors }}</span>#}
+        <div class="form-group">
+            <label for="inputPassword" class="sr-only">Password</label>
+            {{ form.password1 }}<span style="color: red">{{ form.password1.errors }}</span>
+        </div>
+{#        <label for="inputPassword" class="sr-only">Password</label>#}
+{#        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required#}
+{#        style="position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box;">#}
+{#        <span style="color: red">{{ form.password1.errors.0 }}</span>#}
+
+        <div class="form-group" >
+            <label for="confirm_password" class="sr-only">Password Confirmation</label>
+            {{ form.password2 }}
+            <span style="color: red">
+                {{ form.password2.errors}}
+            </span>
+        </div>
+        <div class="form-group" >
+            <label for="nickname" class="sr-only">InputNickname</label>
+            {{ form.name }}
+            <span style="color: red">
+                {{ form.name.errors}}
+            </span>
+        </div>
+{#        <label for="confirm_password">Password Confirmation</label>#}
+{#        {{ form.password2 }}#}
+{#        <span style="color: red">#}
+{#            {{ form.password2.errors.0  }}#}
+{#            {% if form|all_errors %}#}
+{#                {{ form|all_errors }}#}
+{#            {% endif %}</span>#}
+{#        </span>#}
+{#        <div class="checkbox" style="margin-bottom: 10px;">#}
+{#            <label>#}
+{#                <input type="checkbox" value="remember-me"> Remember me#}
+{#            </label>#}
+{#        </div>#}
+        <input type="submit" value="Register in" class="btn btn-lg btn-primary btn-block">
+        <span>已有账号？<a href="/accounts/login/" style="color: red">直接登录</a></span>
+    </form>
+</div>
+
+{#<div>#}
+{#    {% if login_err %}#}
+{#        <p style="color: red"> {{login_err}}</p>#}
+{#    {% endif %}#}
+{#</div>#}
+
+{% endblock %}

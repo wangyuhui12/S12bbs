@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Signin Template for Bootstrap{% endblock %}
+
+{#<link href="{% static 'bootstrap/css/signin.css' %}" rel="stylesheet">#}
+
+
+{% block page-container %}
+{#<h2 class="form-signin-heading" style="margin-bottom: 10px;">Please sign in</h2>#}
+{#{% if message %}#}
+{#    {{ message }}#}
+{#{% endif %}#}
+{#<div class="form-wrapper">#}
+{#    <form action="/accounts/login/" method="post" class="form-signin">{% csrf_token %}#}
+{#        {% for field in form %}#}
+{#            <div class="fieldWrapper">#}
+{#                {{ field.errors }}#}
+{#                {{ field.label_tag }} {{ field }}#}
+{#                {% if field.help_text %}#}
+{#                    <p class="help">{{ field.help_text|safe }}</p>#}
+{#                {% endif %}#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#        <div class="button-wrapper submit">#}
+{#            <input type="submit" value="Log me in" class="btn btn-lg btn-primary btn-block">#}
+{#        </div>#}
+{##}
+{#    </form>#}
+{#    <span>还没有账号？<a href="/accounts/register/">立即注册</a></span>#}
+
+{#</div>#}
+
+<div class="container" style="margin-left: 55px;">
+    <form action="/accounts/login/" method="post" class="form-signin" style="max-width:330px; padding:15px; margin-left: 220px;
+    margin-bottom:10px; position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box; ">{% csrf_token %}
+        <h2 class="form-signin-heading" style="margin-bottom: 10px;">Please sign in</h2>
+        <label for="inputUsername" class="sr-only">Username</label>
+        <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus
+        style="position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box;margin-bottom: 15px;">
+        {{ form.username.errors }}
+        <label for="inputPassword" class="sr-only">Password</label>
+
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required
+        style="position：relative;height: auto;-webkit-box-sizing：border-box;-moz-box-sizing：border-box;box-sizing:border-box;">
+
+        <p>{{ form.username.errors }}</p>
+
+
+{#        <div class="checkbox" style="margin-bottom: 10px;">#}
+{#            <label>#}
+{#                <input type="checkbox" value="remember-me"> Remember me#}
+{#            </label>#}
+{#        </div>#}
+        <input type="submit" value="Log me in" class="btn btn-lg btn-primary btn-block">
+        <span>还没有账号？<a href="/accounts/register/" style="color: red;">立即注册</a></span>
+    </form>
+</div>
+
+
+
+
+{#    <div class="container">#}
+{##}
+{#      <form class="form-signin">#}
+{#        <h2 class="form-signin-heading">Please sign in</h2>#}
+{#        <label for="inputUsername" class="sr-only">Username</label>#}
+{#        <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>#}
+{#        <label for="inputPassword" class="sr-only">Password</label>#}
+{#        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>#}
+{#        <div class="checkbox">#}
+{#          <label>#}
+{#            <input type="checkbox" value="remember-me"> Remember me#}
+{#          </label>#}
+{#        </div>#}
+{#        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>#}
+{#      </form>#}
+{##}
+{#    </div> <!-- /container -->#}
+{#<div>#}
+{#    {% if login_err %}#}
+{#        <p style="color: red"> {{login_err}}</p>#}
+{#    {% endif %}#}
+{#</div>#}
+{% endblock %}
